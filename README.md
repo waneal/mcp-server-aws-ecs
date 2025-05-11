@@ -156,11 +156,13 @@ If your MCP server doesn't connect properly:
 
 This server provides the following ECS tools:
 
+( implemented only Read operations now )
+
 - Cluster operations: `list_clusters`, `describe_clusters`
 - Service operations: `list_services`, `describe_services`, `list_services_with_details`
 - Task operations: `list_tasks`, `describe_tasks`, `get_task_protection`
 - Container instance operations: `list_container_instances`, `describe_container_instances`
-- Task definition operations: `list_task_definitions`, `list_task_definition_families`
+- Task definition operations: `list_task_definitions`, `list_task_definition_families`, `describe_task_definition`
 - Capacity provider operations: `list_capacity_providers`, `describe_capacity_providers`, `get_cluster_capacity_providers`
 - Deployment operations: `list_service_deployments`, `describe_service_deployments`, `describe_service_revisions`
 - Miscellaneous: `list_account_settings`, `list_attributes`, `list_tags_for_resource`, `list_services_by_namespace`, `discover_poll_endpoint`
