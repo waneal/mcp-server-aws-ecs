@@ -18,7 +18,6 @@ A Model Context Protocol (MCP) server for interacting with Amazon ECS (Elastic C
   - [Installation](#installation)
     - [Step 1: Clone the repository](#step-1-clone-the-repository)
     - [Step 2: Install uv (Python package manager)](#step-2-install-uv-python-package-manager)
-    - [Step 3: Configure AWS credentials](#step-3-configure-aws-credentials)
   - [Usage](#usage)
     - [Running the server](#running-the-server)
     - [Using with Claude for Desktop](#using-with-claude-for-desktop)
@@ -150,7 +149,7 @@ If your MCP server doesn't connect properly:
 5. Try running the server manually to check for errors:
    ```bash
    cd /path/to/mcp-server-aws-ecs
-   python server.py
+   uv run server.py
    ```
 
 ## Available Tools
