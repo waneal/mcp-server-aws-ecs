@@ -450,6 +450,31 @@ def discover_poll_endpoint(cluster_arn: Optional[str] = None,
         'serviceConnectEndpoint': response.get('serviceConnectEndpoint', '')
     }
 
+@mcp.tool()
+def describe_task_definition(task_definition: str, include: Optional[List[str]] = None) -> Dict[str, Any]:
+    """
+    Get detailed information about a task definition
+
+    Args:
+        task_definition: The family and revision (family:revision) or full ARN of the task definition
+        include: Specifies whether to see the resource tags for the task definition (optional)
+    """
+    client = get_ecs_client()
+    params = {'taskDefinition': task_definition}
+    
+    if include:
+        params['include'] = include
+    
+    response = client.describe_task_definition(**params)
+    result = {}
+    
+    # Extract relevant fields from the response
+    for key in ['taskDefinition', 'tags', 'compatibilities', 'registeredAt', 'registeredBy', 'deregisteredAt']:
+        if key in response:
+            result[key] = response[key]
+    
+    return result
+
 # Launch server
 if __name__ == "__main__":
     mcp.run()
