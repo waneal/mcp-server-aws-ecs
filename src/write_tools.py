@@ -1,15 +1,16 @@
-from mcp.server.fastmcp import FastMCP, Context
-from typing import List, Dict, Any, Optional, Union
-from .common import get_ecs_client
+"""
+Write operation tools for AWS ECS MCP Server
+"""
 
-# Write operations for AWS ECS
+from typing import List, Dict, Any, Optional, Callable
 
-def register_write_tools(mcp: FastMCP):
+def register_write_tools(mcp, get_ecs_client: Callable):
     """
     Register all write operations (create, update, delete) for ECS with the MCP server
     
     Args:
         mcp: The FastMCP server instance
+        get_ecs_client: Function to get the ECS client
     """
     
     # Create operations

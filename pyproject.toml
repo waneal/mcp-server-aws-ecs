@@ -23,4 +23,4 @@ dev = [
 ]
 
 [tool.setuptools]
-packages = ["src.mcp_server_aws_ecs"]
+packages = ["src"]

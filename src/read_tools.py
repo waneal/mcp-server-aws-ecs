@@ -1,15 +1,16 @@
-from mcp.server.fastmcp import FastMCP, Context
-from typing import List, Dict, Any, Optional, Union
-from .common import get_ecs_client, chunk_list
+"""
+Read-only tools for AWS ECS MCP Server
+"""
 
-# Read-only operations for AWS ECS
+from typing import List, Dict, Any, Optional, Callable
 
-def register_read_tools(mcp: FastMCP):
+def register_read_tools(mcp, get_ecs_client: Callable):
     """
     Register all read-only ECS tools with the MCP server
     
     Args:
         mcp: The FastMCP server instance
+        get_ecs_client: Function to get the ECS client
     """
     
     @mcp.tool()
