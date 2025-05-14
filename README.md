@@ -1,3 +1,7 @@
+> [!NOTE]  
+> If you can use Claude Code in Claude Desktop, it may be useful to use aws-cli via bash tool in Claude Code rather than this mcp server.
+
+
 # AWS ECS MCP Server
 
 <div align="center">
