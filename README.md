@@ -2,8 +2,8 @@
 
 <div align="center">
 
-[\![Python Version][python-badge]][python-url]
-[\![MCP SDK Version][mcp-badge]][mcp-url]
+[![Python Version][python-badge]][python-url]
+[![MCP SDK Version][mcp-badge]][mcp-url]
 
 </div>
 
