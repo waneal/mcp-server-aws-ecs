@@ -2,8 +2,8 @@
 
 <div align="center">
 
-[![Python Version][python-badge]][python-url]
-[![MCP SDK Version][mcp-badge]][mcp-url]
+[\![Python Version][python-badge]][python-url]
+[\![MCP SDK Version][mcp-badge]][mcp-url]
 
 </div>
 
@@ -24,6 +24,7 @@ A Model Context Protocol (MCP) server for interacting with Amazon ECS (Elastic C
     - [Using with Claude for Desktop](#using-with-claude-for-desktop)
       - [Troubleshooting](#troubleshooting)
   - [Available Tools](#available-tools)
+  - [Server Types](#server-types)
   - [Configuration](#configuration)
   - [License](#license)
 
@@ -68,12 +69,19 @@ pip install uv
 
 ### Running the server
 
-You can run the server directly with uv:
+You can run the server directly with uv, choosing the type of server you need:
 
 ```bash
+# For full server (read + write operations)
 export AWS_PROFILE=your-profile-name
 export AWS_REGION=ap-northeast-1  # Optional, defaults to ap-northeast-1
 uv run server.py
+
+# For read-only operations
+uv run read_server.py
+
+# For write operations only
+uv run write_server.py
 ```
 
 ### Using with Claude for Desktop
@@ -85,18 +93,31 @@ To use this server with Claude for Desktop:
    - On macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
    - On Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 
-   Create or edit the file to include the following:
+   Create or edit the file to include the following (choose the server type you need):
 
    ```json
    {
      "mcpServers": {
-       "aws-ecs": {
+       "aws-ecs-full": {
          "command": "uv",
          "args": [
            "--directory",
            "/ABSOLUTE/PATH/TO/mcp-server-aws-ecs",
            "run",
            "server.py"
+         ],
+         "env": {
+           "AWS_PROFILE": "your-profile-name",
+           "AWS_REGION": "ap-northeast-1"
+         }
+       },
+       "aws-ecs-read": {
+         "command": "uv",
+         "args": [
+           "--directory",
+           "/ABSOLUTE/PATH/TO/mcp-server-aws-ecs",
+           "run",
+           "read_server.py"
          ],
          "env": {
            "AWS_PROFILE": "your-profile-name",
@@ -111,7 +132,7 @@ To use this server with Claude for Desktop:
    ```json
    {
      "mcpServers": {
-       "aws-ecs": {
+       "aws-ecs-full": {
          "command": "uv",
          "args": [
            "--directory",
@@ -157,14 +178,36 @@ If your MCP server doesn't connect properly:
 
 This server provides the following ECS tools:
 
-- Cluster operations: `list_clusters`, `describe_clusters`
-- Service operations: `list_services`, `describe_services`, `list_services_with_details`
-- Task operations: `list_tasks`, `describe_tasks`, `get_task_protection`
+- Cluster operations: `list_clusters`, `describe_clusters`, `create_cluster`, `delete_cluster`
+- Service operations: `list_services`, `describe_services`, `list_services_with_details`, `create_service`, `update_service`, `delete_service`
+- Task operations: `list_tasks`, `describe_tasks`, `get_task_protection`, `update_task_protection`, `run_task`, `stop_task`
 - Container instance operations: `list_container_instances`, `describe_container_instances`
-- Task definition operations: `list_task_definitions`, `list_task_definition_families`
-- Capacity provider operations: `list_capacity_providers`, `describe_capacity_providers`, `get_cluster_capacity_providers`
+- Task definition operations: `list_task_definitions`, `list_task_definition_families`, `register_task_definition`, `deregister_task_definition`
+- Capacity provider operations: `list_capacity_providers`, `describe_capacity_providers`, `get_cluster_capacity_providers`, `create_capacity_provider`, `delete_capacity_provider`
+- Task set operations: `describe_task_sets`, `create_task_set`, `update_task_set`, `delete_task_set`
 - Deployment operations: `list_service_deployments`, `describe_service_deployments`, `describe_service_revisions`
-- Miscellaneous: `list_account_settings`, `list_attributes`, `list_tags_for_resource`, `list_services_by_namespace`, `discover_poll_endpoint`
+- Miscellaneous: `list_account_settings`, `list_attributes`, `list_tags_for_resource`, `list_services_by_namespace`, `discover_poll_endpoint`, `delete_account_setting`, `delete_attributes`
+
+## Server Types
+
+This package provides three different server types to match your needs:
+
+1. **Full Server** (`server.py`):
+   - Includes both read and write operations
+   - Provides complete access to all AWS ECS APIs
+   - Use when you need full control over your ECS resources
+
+2. **Read-Only Server** (`read_server.py`):
+   - Includes only read operations (list_, describe_, get_)
+   - Safer option as it can't modify your infrastructure
+   - Ideal for monitoring and exploring your ECS environment
+
+3. **Write Server** (`write_server.py`):
+   - Includes only write operations (create_, update_, delete_)
+   - Focused on infrastructure changes
+   - Useful for deployments and infrastructure management
+
+You can choose the appropriate server based on your needs and security requirements.
 
 ## Configuration
 

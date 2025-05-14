@@ -1,17 +1,15 @@
-from mcp.server.fastmcp import FastMCP, Context
-import os
-from src.mcp_server_aws_ecs.read import register_read_tools
-from src.mcp_server_aws_ecs.write import register_write_tools
+#\!/usr/bin/env python3
+"""
+Main entry point for the AWS ECS MCP Server.
+This script runs the full server with both read and write capabilities.
 
-# Create MCP server
-mcp = FastMCP("AWS ECS MCP Server")
+For a read-only or write-only server, use the respective modules:
+- src/mcp_server_aws_ecs/servers/read_server.py
+- src/mcp_server_aws_ecs/servers/write_server.py
+"""
 
-# Register read-only tools
-register_read_tools(mcp)
+from src.mcp_server_aws_ecs.servers.full_server import full_server
 
-# Register write tools
-register_write_tools(mcp)
-
-# Launch server
 if __name__ == "__main__":
-    mcp.run()
+    # Run the full server (read + write operations)
+    full_server.run()
